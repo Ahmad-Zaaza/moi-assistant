@@ -1,3 +1,6 @@
+import AudioRecorder from "components/AudioRecorder/AudioRecorder";
+
+// Register the wav encoder
 export default function Main() {
-  return <div>main.route</div>;
+  return <AudioRecorder />;
 }

@@ -1,6 +1,5 @@
 import { Divider, Layout, Menu, theme } from "antd";
 import { Link, Outlet, useLocation } from "react-router-dom";
-import AccountMenu from "../components/AccountMenu";
 import AppTitle from "../components/AppTitle";
 import Logo from "../components/Logo";
 import ThemeSwitcher from "../components/ThemeSwitcher";
@@ -28,7 +27,6 @@ export function Root() {
         </div>
         <div className="flex gap-1">
           <ThemeSwitcher />
-          <AccountMenu />
         </div>
       </Layout.Header>
       <Layout.Content className="flex-1 overflow-auto">

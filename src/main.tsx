@@ -1,10 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "styles/index.css";
-import { Tracking } from "tracking/index.ts";
 import App from "./App.tsx";
-
-Tracking.init();
 
 declare global {
   interface Window {

@@ -20,6 +20,8 @@
     "axios": "^1.6.2",
     "cva": "npm:class-variance-authority",
     "echarts": "^5.4.3",
+    "extendable-media-recorder": "^9.2.4",
+    "extendable-media-recorder-wav-encoder": "^7.0.111",
     "keycloak-js": "^23.0.1",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.1",
