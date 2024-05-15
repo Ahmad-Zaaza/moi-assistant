@@ -7,6 +7,7 @@ import {
 } from "extendable-media-recorder";
 import { connect } from "extendable-media-recorder-wav-encoder";
 import { Button, message } from "antd";
+import { PulseLoader } from "react-spinners";
 import { CANVAS_HEIGHT, CANVAS_WIDTH, path } from "./audioRecorder.utils";
 // import AudioVisualizer from "components/AudioVisualizer/AudioVisualizer";
 
@@ -15,11 +16,13 @@ await register(await connect());
 interface AudioRecorderProps {
   onAudioData: (data: Blob) => Promise<void>;
   audioRef: React.MutableRefObject<HTMLAudioElement>;
+  isStreaming?: boolean;
 }
 
 export default function AudioRecorder({
   onAudioData,
   audioRef,
+  isStreaming,
 }: AudioRecorderProps) {
   const [isRecording, setIsRecording] = useState(false);
 
@@ -101,6 +104,7 @@ export default function AudioRecorder({
 
   function visualizeFromAudioFile() {
     const audioContext = new AudioContext();
+    console.log({ audio: audioRef.current });
     const audioSource = audioContext.createMediaElementSource(audioRef.current);
     const analyser = audioContext.createAnalyser();
     audioSource.connect(analyser);
@@ -110,6 +114,7 @@ export default function AudioRecorder({
     const dataArray = new Uint8Array(bufferLength);
 
     const handleEnded = function () {
+      console.log("audio ended");
       const timeoutfn = () => {
         if (animationId.current) {
           cancelAnimationFrame(animationId.current);
@@ -118,6 +123,9 @@ export default function AudioRecorder({
         audioSource.disconnect();
         analyser.disconnect();
       };
+      audioRef.current.remove();
+      audioRef.current = new Audio();
+      audioRef.current.removeEventListener("ended", handleEnded);
       setTimeout(timeoutfn, 500);
     };
     void audioRef.current.play();
@@ -205,28 +213,39 @@ export default function AudioRecorder({
   };
 
   return (
-    <div>
-      {!isRecording ? (
-        <Button
-          onClick={() => {
-            void captureAndTranscribeAudio();
-          }}
-        >
-          Start recording
-        </Button>
-      ) : (
-        <Button onClick={stopRecording}>Stop recording</Button>
-      )}
-      <Button onClick={onWelcome}>Welcome me</Button>
-      <div className="max-w-lg px-8 mx-auto">
+    <div className="flex flex-col items-center justify-center max-w-md gap-16 px-8 mx-auto">
+      <div>
         <canvas
           id="assistant-canvas"
           width={CANVAS_WIDTH}
           height={CANVAS_HEIGHT}
-          className="bg-transparent rounded-full"
+          className="w-full bg-transparent rounded-full"
           ref={canvasRef}
         />
       </div>
+      {!isRecording ? (
+        <button
+          disabled={isStreaming}
+          onClick={() => {
+            void captureAndTranscribeAudio();
+          }}
+          className="p-4 block text-lg text-white cursor-pointer  bg-[#b68a35] transition-colors duration-100 [&:not(:disabled)]:hover:bg-[#e3ad42] border-none rounded-full shadow-lg mx-auto w-[200px]"
+        >
+          {isStreaming ? (
+            <PulseLoader className="inline ms-1" color="white" size={8} />
+          ) : (
+            "Click to speak"
+          )}
+        </button>
+      ) : (
+        <button
+          onClick={stopRecording}
+          className="p-4 block text-lg text-white cursor-pointer bg-[#ff3243] transition-colors duration-100 hover:bg-[#e24451] border-none rounded-full shadow-lg mx-auto w-[200px]"
+        >
+          Stop recording
+        </button>
+      )}
+      <Button onClick={onWelcome}>Welcome me</Button>
     </div>
   );
 }

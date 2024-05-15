@@ -15,6 +15,15 @@ const router = createBrowserRouter([
           return { Component: Main };
         },
       },
+      {
+        path: "assistant",
+        async lazy() {
+          const AssistantChatPage = await import(
+            "features/assistant/routes/AssistantChatPage"
+          ).then((module) => module.default);
+          return { Component: AssistantChatPage };
+        },
+      },
     ],
   },
 ]);

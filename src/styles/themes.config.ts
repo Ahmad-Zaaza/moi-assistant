@@ -6,7 +6,7 @@ export const themes: { name: string; themeConfig: ThemeConfig }[] = [
     themeConfig: {
       token: {
         fontFamily: "inherit",
-        colorBgLayout: "#f7f8f9",
+        colorBgLayout: "#fff6e5",
         colorBorder: "#ccd3db",
         colorPrimary: "#ff9800",
         colorTextDescription: "#425366",

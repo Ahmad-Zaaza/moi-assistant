@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 // the canvas size
-export const CANVAS_WIDTH = 500;
-export const CANVAS_HEIGHT = 500;
+export const CANVAS_WIDTH = 400;
+export const CANVAS_HEIGHT = 400;
 
 interface Options {
   smoothing: number;
@@ -26,10 +26,10 @@ const opts: Options = {
   minDecibels: -60,
   scale: 0.2,
   glow: 15,
-  color1: [203, 36, 128],
-  color2: [41, 200, 192],
-  color3: [24, 137, 218],
-  fillOpacity: 0.6,
+  color1: [243, 240, 219],
+  color2: [255, 254, 243],
+  color3: [220, 220, 220],
+  fillOpacity: 0.4,
   lineWidth: 3,
   blend: "screen",
   shift: 50,

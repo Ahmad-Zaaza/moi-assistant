@@ -27,8 +27,14 @@
     "match-sorter": "^6.3.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-error-boundary": "^4.0.13",
     "react-icons": "^4.12.0",
+    "react-markdown": "^9.0.1",
     "react-router-dom": "^6.20.1",
+    "react-spinners": "^0.13.8",
+    "remark-breaks": "^4.0.0",
+    "remark-gfm": "^4.0.0",
+    "remark-math": "^6.0.0",
     "sort-by": "^1.2.0",
     "usehooks-ts": "^2.9.1"
   },
@@ -36,7 +42,6 @@
     "@commitlint/cli": "^18.4.3",
     "@commitlint/config-conventional": "^18.4.3",
     "@commitlint/prompt-cli": "^18.4.3",
-    "@playwright/test": "^1.40.1",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
     "@semantic-release/gitlab": "^13.0.0",
@@ -68,7 +73,7 @@
     "typescript": "^5.3.2",
     "vite": "^5.0.5",
     "vite-plugin-checker": "^0.6.2",
-    "vite-plugin-istanbul": "^5.0.0",
+    "vite-plugin-svgr": "^4.2.0",
     "vite-tsconfig-paths": "^4.2.1"
   }
 }

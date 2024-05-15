@@ -5,7 +5,6 @@
 @tailwind utilities;
 
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -17,5 +16,5 @@ a {
 }
 
 #assistant-canvas {
-  width: 100%;
+  @apply w-full bg-gradient-to-b from-[#04833c] to-[#31cd76] border-[10px] border-solid border-green-500 bg-opacity-60 shadow-lg outline outline-offset-[0px] outline-[#b68b351c] outline-[20px];
 }
