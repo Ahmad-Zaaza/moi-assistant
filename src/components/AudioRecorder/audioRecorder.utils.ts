@@ -23,7 +23,7 @@ interface Options {
 const opts: Options = {
   smoothing: 0.8,
   fft: 8,
-  minDecibels: -60,
+  minDecibels: -50,
   scale: 0.2,
   glow: 15,
   color1: [243, 240, 219],
@@ -34,7 +34,7 @@ const opts: Options = {
   blend: "screen",
   shift: 50,
   width: 60,
-  amp: 1,
+  amp: 0.8,
 };
 
 /**
@@ -74,7 +74,7 @@ function range(i: number) {
 export function path(
   channel: number,
   ctx: CanvasRenderingContext2D,
-  audioData: Uint8Array
+  audioData: Uint8Array,
 ) {
   // Read color1, color2, color2 from the opts
   const color = (
@@ -100,13 +100,13 @@ export function path(
 
   // calculate the 15 x-offsets
   const x = range(15).map(
-    (i) => offset + channel * opts.shift + i * opts.width
+    (i) => offset + channel * opts.shift + i * opts.width,
   );
 
   // pick some frequencies to calculate the y values
   // scale based on position so that the center is always bigger
   const y = range(5).map((i) =>
-    Math.max(0, m - scale(i) * freq(channel, i, audioData))
+    Math.max(0, m - scale(i) * freq(channel, i, audioData)),
   );
 
   const h = 2 * m;

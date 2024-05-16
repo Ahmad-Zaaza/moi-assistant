@@ -1,7 +1,11 @@
-import { Card, Typography } from "antd";
+import { Card, Typography, message } from "antd";
 import { useState } from "react";
+import { useResetConversation } from "../hooks/assistant.hooks";
 import ChatQueries from "./ChatQueries";
-import { useAssistantInferenceContext } from "./AssistantInferenceProvider";
+import {
+  defaultConversation,
+  useAssistantInferenceContext,
+} from "./AssistantInferenceProvider";
 
 interface ConversationProps {
   isLoading: boolean;
@@ -14,7 +18,23 @@ export default function Conversation({
 }: ConversationProps) {
   const [userScrolled, setUserScrolled] = useState(false);
 
-  const { conversation } = useAssistantInferenceContext();
+  const { mutate, isPending: isResetting } = useResetConversation();
+  const { conversation, setConversation } = useAssistantInferenceContext();
+
+  const handleReset = () => {
+    mutate(
+      { bot_id: "4f306b6e-7f85-49eb-9076-14591a5aa671" },
+      {
+        onSuccess: () => {
+          void message.success("Conversation restarted");
+          setConversation(defaultConversation);
+        },
+        onError: (e) => {
+          void message.error(`Error ${e.message}`);
+        },
+      },
+    );
+  };
 
   return (
     <Card
@@ -36,16 +56,15 @@ export default function Conversation({
           </Typography.Title>
         </div>
       }
-      // extra={
-      //   <Button
-      //     className="text-white text-xs font-medium hover:!text-white"
-      //     type="text"
-      //     //   onClick={handleReset}
-      //     //   loading={isResetLoading}
-      //   >
-      //     Restart
-      //   </Button>
-      // }
+      extra={
+        <button
+          disabled={isResetting}
+          onClick={handleReset}
+          className="p-2 flex items-center justify-center text-xs text-white cursor-pointer  bg-[#a87e25] transition-colors duration-100 [&:not(:disabled)]:hover:bg-[#e3ad42] border-none rounded-full shadow-lg"
+        >
+          Restart
+        </button>
+      }
     >
       <ChatQueries
         userScrolled={userScrolled}

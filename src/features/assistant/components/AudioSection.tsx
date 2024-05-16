@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 import AudioRecorder from "components/AudioRecorder/AudioRecorder";
 import Logo from "features/root/components/Logo";
 import { GenerateAnswerPayload } from "../types/assistant.types";

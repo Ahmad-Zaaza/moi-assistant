@@ -1,17 +1,13 @@
 {
-  "name": "frontend-boilerplate",
+  "name": "moi-assistant",
   "private": true,
-  "version": "1.2.10",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "commit": "commit",
     "build": "tsc && vite build",
     "dev": "vite",
-    "prepare": "husky install",
-    "preview": "vite preview",
-    "test": "playwright test",
-    "test:gen": "playwright codegen",
-    "test:ui": "playwright test --ui"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@datadog/browser-rum": "^5.8.0",
@@ -24,7 +20,6 @@
     "extendable-media-recorder-wav-encoder": "^7.0.111",
     "keycloak-js": "^23.0.1",
     "localforage": "^1.10.0",
-    "match-sorter": "^6.3.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-error-boundary": "^4.0.13",
@@ -58,7 +53,6 @@
     "eslint": "^8.55.0",
     "eslint-plugin-import": "^2.29.0",
     "eslint-plugin-jsx-a11y": "^6.8.0",
-    "eslint-plugin-playwright": "^0.22.0",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",

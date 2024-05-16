@@ -1,14 +1,15 @@
+/* eslint-disable no-console */
+
 import { useApi } from "api";
 import { useAuth } from "features/auth/hooks/useAuth";
 import { MutableRefObject, useState } from "react";
+import { useMutation } from "@tanstack/react-query";
 import { GenerateAnswerPayload } from "../types/assistant.types";
 import { useAssistantInferenceContext } from "../components/AssistantInferenceProvider";
 
 const parseChunk = (chunk: string) => {
   try {
     const data = chunk.split("data: ")[1];
-    // const data = JSON.parse(chunk.split("data: ")[1]) as string;
-    // return { answer: data.answer, error: data["error message"] };
     return { answer: data };
   } catch (error) {
     return undefined;
@@ -16,7 +17,7 @@ const parseChunk = (chunk: string) => {
 };
 
 function parseDataFromChunk(chunk: string) {
-  const d = chunk.split("\n\n");
+  const d = chunk.split(`\n\n ~`);
   let result = "";
   d.forEach((el) => {
     try {
@@ -26,7 +27,6 @@ function parseDataFromChunk(chunk: string) {
       result += data;
     } catch (error) {
       console.log({ error });
-      //
     }
   });
   return result;
@@ -35,7 +35,7 @@ function parseDataFromChunk(chunk: string) {
 let controller: AbortController | undefined;
 
 export const useSendAudioMessage = (
-  audioRef: MutableRefObject<HTMLAudioElement>
+  audioRef: MutableRefObject<HTMLAudioElement>,
 ) => {
   const { setConversation } = useAssistantInferenceContext();
   const { getAccessToken } = useAuth();
@@ -68,7 +68,7 @@ export const useSendAudioMessage = (
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const errorResponse: { message?: string } = await response.json();
         throw new Error(
-          errorResponse.message ?? `HTTP error! status: ${response.statusText}`
+          errorResponse.message ?? `HTTP error! status: ${response.statusText}`,
         );
       }
 
@@ -107,24 +107,22 @@ export const useSendAudioMessage = (
             const chunk = decoder.decode(value, { stream: true });
             const nextText = parseDataFromChunk(chunk);
             if (nextText) {
+              // Text in our specified format is detected
+              // we will receieve two text chunks, the first is for the user prompt transcribtion
+              // the second is the rag text response
               if (i === 0) {
-                console.log("User Message", nextText);
                 setConversation((current) => [
                   ...current,
                   { role: "user", message: nextText },
                 ]);
                 i++;
               } else if (i === 1) {
-                console.log("Assistant Message", nextText);
                 setConversation((current) => [
                   ...current,
                   { role: "assistant", message: nextText },
                 ]);
                 i = 0;
               }
-              // we will receieve two text chunks, the first is for the user prompt transcribtion
-              // the second is the rag text response
-              console.log({ nextText });
             } else {
               await processChunk(value.buffer);
             }
@@ -175,4 +173,15 @@ export const useSendAudioMessage = (
   };
 
   return { sendMessage, isLoading, abortStream, errorMessage, setErrorMessage };
+};
+
+export const useResetConversation = () => {
+  const api = useApi();
+  const { getAccessToken } = useAuth();
+  const token = getAccessToken();
+
+  return useMutation({
+    mutationFn: ({ bot_id }: { bot_id: string }) =>
+      api.rag.resetBot({ token, bot_id }),
+  });
 };

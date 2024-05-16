@@ -16,6 +16,13 @@ export interface Conversation {
   message: string;
 }
 
+export const defaultConversation = [
+  {
+    role: "assistant",
+    message: "Hello! How can I help you today?",
+  },
+] as Conversation[];
+
 interface Context {
   conversation: Conversation[];
   setConversation: Dispatch<SetStateAction<Conversation[]>>;
@@ -31,16 +38,12 @@ export default function AssistantInferenceProvider({
 }: {
   children: ReactNode;
 }) {
-  const [conversation, setConversation] = useState<Conversation[]>([
-    {
-      role: "assistant",
-      message: "Hello! How can I help you today?",
-    },
-  ]);
+  const [conversation, setConversation] =
+    useState<Conversation[]>(defaultConversation);
 
   const value = useMemo(
     () => ({ conversation, setConversation }),
-    [conversation, setConversation]
+    [conversation, setConversation],
   );
 
   return (
@@ -55,7 +58,7 @@ export const useAssistantInferenceContext = () => {
 
   if (!context) {
     throw new Error(
-      "useAssistantProvider must be used within a AssistantProvider"
+      "useAssistantProvider must be used within a AssistantProvider",
     );
   }
   return context;

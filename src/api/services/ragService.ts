@@ -27,20 +27,14 @@ export class RagService {
         },
         body: formData,
         signal,
-      }
+      },
     );
 
-  streamAnswer = ({
-    formData,
-    token,
-    signal,
-  }: {
-    formData: FormData;
-    token: string;
-    signal: AbortSignal | undefined;
-  }) =>
-    fetch(
-      `${this.axiosInstance.defaults.baseURL}/be_workflows/be_wf_graph/id/58566a8e-f2d4-4382-a575-6cbcf74edfcd/stream_response`,
+  resetBot = ({ bot_id, token }: { bot_id: string; token: string }) => {
+    const formData = new FormData();
+    formData.append("bot_id", bot_id);
+    return fetch(
+      `${this.axiosInstance.defaults.baseURL}/be_workflows/be_wf_graph/id/9824b9e1-8ee3-4638-aa30-d16acebbe9a6/call`,
       {
         method: "POST",
         headers: {
@@ -48,7 +42,7 @@ export class RagService {
           Authorization: `Bearer ${token}`,
         },
         body: formData,
-        signal,
-      }
+      },
     );
+  };
 }

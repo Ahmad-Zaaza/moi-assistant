@@ -11,7 +11,6 @@ export { default as ExitIcon } from "./exit.svg?react";
 export { default as PlaySquareIcon } from "./play-square.svg?react";
 export { default as MessageChatSquareIcon } from "./message-chat-square.svg?react";
 export { default as BookOpenIcon } from "./book-open.svg?react";
-export { default as EtisalatIcon } from "./etisalat.svg?react";
 export { default as PuzzlePieceIcon } from "./puzzle-piece.svg?react";
 export { default as EllipseIcon } from "./ellipse.svg?react";
 export { default as CloudIcon } from "./cloud.svg?react";

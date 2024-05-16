@@ -5,6 +5,14 @@
 - [Frontend Boilerplate](#frontend-boilerplate)
   - [Table Of Content](#table-of-content)
   - [1. Overview](#1-overview)
+  - [Description](#description)
+  - [Problem and Solution](#problem-and-solution)
+    - [Problem](#problem)
+    - [Solution](#solution)
+  - [Technical Choices](#technical-choices)
+    - [Reasoning Behind Choices](#reasoning-behind-choices)
+    - [Trade-offs and Considerations](#trade-offs-and-considerations)
+    - [Future Improvements](#future-improvements)
   - [2. Usage](#2-usage)
   - [3. Yarn Commands](#3-yarn-commands)
   - [4. Dependencies](#4-dependencies)
@@ -12,11 +20,43 @@
 
 ## 1. Overview
 
-The frontend boilerplate project is designed with the primary goal of establishing a development convention within the company, fostering best practices, consistency, and knowledge sharing.
+ Voice Assistant for Ministry of Interior UAE
 
-Follow the [Usage](#2-usage) section if you want to use this boilerplate in a new project
+## Description
 
-Please refer to the [Contributing](./CONTRIBUTING.md) document if you wish to contribute to this project.
+Maha is an AI voice assistant project developed during InnovateX Hackathon by the Ministry of Interior (MOI). The assistant designed for elderly and people of determination, allows users to ask questions about MOI, or their provided services using the power of Large Language Models (LLMs).
+
+## Problem and Solution
+
+### Problem
+Elderly individuals and people of determination often face significant challenges when trying to access government services. These challenges can include difficulty navigating websites, understanding complex procedures, and physically visiting government offices. These barriers lead to frustration, reduced independence, and exclusion from essential services.
+
+### Solution
+Our voice assistant provides a seamless and intuitive solution to these problems. By enabling users to interact with the Ministry of Interior's services through simple voice commands, the assistant ensures that information is easily accessible to all, regardless of physical or technological limitations. The assistant leverages Large Language Models (LLMs) and Retrieval-Augmented Generation (RAG) to understand user questions and generate accurate, detailed answers.
+
+## Technical Choices
+
+### Reasoning Behind Choices
+1. **Large Language Models (LLM):**
+   - **Reasoning:** LLMs are capable of understanding and processing natural language queries, making the voice assistant conversational and easy to use.
+
+2. **Retrieval-Augmented Generation (RAG):**
+   - **Reasoning:** RAG combines the strengths of retrieval-based and generation-based models, ensuring accurate and comprehensive answers.
+
+3. **Voice Recognition and Synthesis:**
+   - **Reasoning:** These technologies are essential for enabling voice-based interactions, making the assistant accessible to users with limited reading or typing abilities.
+
+### Trade-offs and Considerations
+- **Performance vs. Accuracy:** Balancing the performance of the assistant with the accuracy and relevance of its responses was a key consideration. While high accuracy is essential, it should not come at the cost of slow response times.
+- **Data Privacy:** Ensuring the privacy and security of user data was prioritized, potentially limiting some advanced features that require extensive data collection.
+- **User Experience:** Simplicity and ease of use were prioritized over adding numerous features, to ensure the assistant remained user-friendly for the target audience.
+
+### Future Improvements
+- **Voice Application for Services:** Allow users to apply for ministry services directly through voice commands.
+- **AI-Driven Insights:** Use AI to analyze user interactions and improve service recommendations and responses.
+- **Integration with Other Services:** Integrate with other government and non-governmental services for a more comprehensive user experience.
+- **Multi-Language Support:** Introduce support for multiple languages to cater to a diverse population.
+
 
 ## 2. Usage
 
@@ -79,30 +119,23 @@ yarn dev
 
 ## 3. Yarn Commands
 
-| Command    | Description                                                                                         |
-| ---------- | --------------------------------------------------------------------------------------------------- |
-| `commit`   | Interactively create a commit message adhering to Commitlint rules using the command-line interface |
-| `build`    | Create a production-ready build                                                                     |
-| `dev`      | Run the Vite development server.                                                                    |
-| `prepare`  | Install Husky hooks for pre-commit and pre-push actions.                                            |
-| `preview`  | Launch the Vite preview server and serve the build.                                                 |
-| `test`     | Run tests using Playwright headless.                                                                |
-| `test:gen` | Run tool for generating Playwright test code.                                                       |
-| `test:ui`  | Run Playwright tests with a graphical user interface.                                               |
+| Command   | Description                                                                                         |
+| --------- | --------------------------------------------------------------------------------------------------- |
+| `commit`  | Interactively create a commit message adhering to Commitlint rules using the command-line interface |
+| `build`   | Create a production-ready build                                                                     |
+| `dev`     | Run the Vite development server.                                                                    |
+| `preview` | Launch the Vite preview server and serve the build.                                                 |
 
 ## 4. Dependencies
 
 | Dependency              | Purpose                                                    | Misc                                  |
 | ----------------------- | ---------------------------------------------------------- | ------------------------------------- |
-| `@datadog/browser-rum`  | Tracking service                                           |                                       |
 | `@tanstack/react-query` | React hooks for managing and caching asynchronous data     |                                       |
 | `antd`                  | React UI library                                           |                                       |
 | `axios`                 | Promise-based HTTP client for the browser and Node.js      |                                       |
 | `cva`                   | npm package for class variance authority                   |                                       |
 | `echarts`               | library for creating charts                                |                                       |
-| `keycloak-js`           | JavaScript adapter for Keycloak authentication             |                                       |
 | `localforage`           | Offline storage library for web browsers                   | Used by `react-router-dom`            |
-| `match-sorter`          | A utility for sorting and filtering arrays of objects      | Used by `react-router-dom`            |
 | `react`                 | A JavaScript library for building user interfaces          |                                       |
 | `react-dom`             | Entry point for working with the DOM in React applications |                                       |
 | `react-icons`           | Icon library for React applications                        |                                       |
@@ -117,7 +150,6 @@ yarn dev
 | `@commitlint/cli`                   | Lint commit messages                                      | conventional commits  |
 | `@commitlint/config-conventional`   | Commitlint                                                | conventional commits  |
 | `@commitlint/prompt-cli`            | Interactive CLI for Commitlint                            | conventional commits  |
-| `@playwright/test`                  | End-to-end testing library for web applications           | Use for e2e tests     |
 | `@semantic-release/changelog`       | Automated changelog generation for semantic releases      | semantic-release      |
 | `@semantic-release/git`             | Semantic-release plugin for Git                           | semantic-release      |
 | `@semantic-release/gitlab`          | Semantic-release plugin for GitLab                        | semantic-release      |
@@ -134,7 +166,6 @@ yarn dev
 | `eslint`                            | Linting utility for JavaScript and TypeScript             | linting               |
 | `eslint-plugin-import`              | ESLint plugin for linting import statements               | linting               |
 | `eslint-plugin-jsx-a11y`            | ESLint plugin for accessibility rules in JSX              | linting               |
-| `eslint-plugin-playwright`          | ESLint plugin for Playwright                              | linting               |
 | `eslint-plugin-react`               | ESLint plugin for React                                   | linting               |
 | `eslint-plugin-react-hooks`         | ESLint plugin for React Hooks                             | linting               |
 | `eslint-plugin-react-refresh`       | ESLint plugin for React Refresh                           | linting               |

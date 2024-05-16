@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
+/* eslint-disable no-console */
+
 import { useEffect, useRef, useState } from "react";
 import {
   IMediaRecorder,
@@ -6,10 +8,10 @@ import {
   register,
 } from "extendable-media-recorder";
 import { connect } from "extendable-media-recorder-wav-encoder";
-import { Button, message } from "antd";
+import { message } from "antd";
 import { PulseLoader } from "react-spinners";
+import { HiOutlinePause, HiMiniStop, HiPlay } from "react-icons/hi2";
 import { CANVAS_HEIGHT, CANVAS_WIDTH, path } from "./audioRecorder.utils";
-// import AudioVisualizer from "components/AudioVisualizer/AudioVisualizer";
 
 await register(await connect());
 
@@ -25,6 +27,9 @@ export default function AudioRecorder({
   isStreaming,
 }: AudioRecorderProps) {
   const [isRecording, setIsRecording] = useState(false);
+  const [audioState, setAudioState] = useState<
+    "stopped" | "playing" | "paused"
+  >("stopped");
 
   const recorder = useRef<IMediaRecorder | null>(null);
 
@@ -73,6 +78,8 @@ export default function AudioRecorder({
     const timeoutfn = () => {
       recorder.current = null;
       stream.current = null;
+      audioRef.current.remove();
+      audioRef.current = new Audio();
       if (animationId.current) {
         cancelAnimationFrame(animationId.current);
       }
@@ -104,7 +111,6 @@ export default function AudioRecorder({
 
   function visualizeFromAudioFile() {
     const audioContext = new AudioContext();
-    console.log({ audio: audioRef.current });
     const audioSource = audioContext.createMediaElementSource(audioRef.current);
     const analyser = audioContext.createAnalyser();
     audioSource.connect(analyser);
@@ -114,12 +120,12 @@ export default function AudioRecorder({
     const dataArray = new Uint8Array(bufferLength);
 
     const handleEnded = function () {
-      console.log("audio ended");
       const timeoutfn = () => {
         if (animationId.current) {
           cancelAnimationFrame(animationId.current);
         }
         void audioContext.close();
+        setAudioState("stopped");
         audioSource.disconnect();
         analyser.disconnect();
       };
@@ -128,11 +134,12 @@ export default function AudioRecorder({
       audioRef.current.removeEventListener("ended", handleEnded);
       setTimeout(timeoutfn, 500);
     };
-    void audioRef.current.play();
-
-    audioRef.current.addEventListener("ended", handleEnded);
-    animationId.current = requestAnimationFrame(() => {
-      draw(analyser, dataArray);
+    void audioRef.current.play().then(() => {
+      setAudioState("playing");
+      audioRef.current.addEventListener("ended", handleEnded);
+      animationId.current = requestAnimationFrame(() => {
+        draw(analyser, dataArray);
+      });
     });
   }
 
@@ -201,16 +208,35 @@ export default function AudioRecorder({
     };
   }, []);
 
-  const onWelcome = () => {
-    void fetch("/welcome.mp3")
-      .then((response) => response.blob())
-      .then((blob) => {
-        const audioUrl = URL.createObjectURL(blob);
-        audioRef.current.src = audioUrl;
-
-        visualizeFromAudioFile();
-      });
+  const stopAudio = () => {
+    audioRef.current.pause();
+    setAudioState("stopped");
+    reset();
   };
+  const pauseAudio = () => {
+    if (audioState === "playing") {
+      audioRef.current.pause();
+      setAudioState("paused");
+    }
+  };
+
+  const continueAudio = () => {
+    if (audioState === "paused") {
+      void audioRef.current.play();
+      setAudioState("playing");
+    }
+  };
+
+  // const onWelcome = () => {
+  //   void fetch("/welcome.mp3")
+  //     .then((response) => response.blob())
+  //     .then((blob) => {
+  //       const audioUrl = URL.createObjectURL(blob);
+  //       audioRef.current.src = audioUrl;
+
+  //       visualizeFromAudioFile();
+  //     });
+  // };
 
   return (
     <div className="flex flex-col items-center justify-center max-w-md gap-16 px-8 mx-auto">
@@ -223,29 +249,66 @@ export default function AudioRecorder({
           ref={canvasRef}
         />
       </div>
-      {!isRecording ? (
-        <button
-          disabled={isStreaming}
-          onClick={() => {
-            void captureAndTranscribeAudio();
-          }}
-          className="p-4 block text-lg text-white cursor-pointer  bg-[#b68a35] transition-colors duration-100 [&:not(:disabled)]:hover:bg-[#e3ad42] border-none rounded-full shadow-lg mx-auto w-[200px]"
-        >
-          {isStreaming ? (
-            <PulseLoader className="inline ms-1" color="white" size={8} />
-          ) : (
-            "Click to speak"
-          )}
-        </button>
-      ) : (
-        <button
-          onClick={stopRecording}
-          className="p-4 block text-lg text-white cursor-pointer bg-[#ff3243] transition-colors duration-100 hover:bg-[#e24451] border-none rounded-full shadow-lg mx-auto w-[200px]"
-        >
-          Stop recording
-        </button>
-      )}
-      <Button onClick={onWelcome}>Welcome me</Button>
+
+      <div className="flex items-center gap-2 mx-auto">
+        {isRecording ? (
+          <button
+            onClick={stopRecording}
+            className="p-4 block text-lg text-white cursor-pointer bg-[#ff3243] transition-colors duration-100 hover:bg-[#e24451] border-none rounded-full shadow-lg mx-auto w-[200px]"
+          >
+            Stop recording
+          </button>
+        ) : isStreaming ? (
+          <button
+            disabled={isStreaming}
+            className="p-4 flex items-center justify-center text-lg text-white cursor-pointer  bg-[#b68a35] transition-colors duration-100 [&:not(:disabled)]:hover:bg-[#e3ad42] border-none rounded-full shadow-lg h-[60px] w-[200px]"
+          >
+            <PulseLoader color="white" size={14} />
+          </button>
+        ) : audioState === "playing" ? (
+          <>
+            <button
+              onClick={pauseAudio}
+              className="p-4 flex items-center justify-center text-lg text-white cursor-pointer  bg-[#b68a35] transition-colors duration-100 [&:not(:disabled)]:hover:bg-[#e3ad42] border-none rounded-full shadow-lg w-[200px]"
+            >
+              <HiOutlinePause size={35} />
+              Pause
+            </button>
+            <button
+              onClick={stopAudio}
+              className="p-4 flex items-center justify-center rounded-full text-lg text-white cursor-pointer  bg-[#b68a35] transition-colors duration-100 [&:not(:disabled)]:hover:bg-[#e3ad42] border-none  shadow-lg w-[70px]"
+            >
+              <HiMiniStop size={35} />
+            </button>
+          </>
+        ) : audioState === "paused" ? (
+          <>
+            <button
+              onClick={continueAudio}
+              className="p-4 flex items-center justify-center text-lg text-white cursor-pointer  bg-[#b68a35] transition-colors duration-100 [&:not(:disabled)]:hover:bg-[#e3ad42] border-none rounded-full shadow-lg w-[200px]"
+            >
+              <HiPlay size={35} />
+              Continue
+            </button>
+            <button
+              onClick={stopAudio}
+              className="p-4 flex items-center justify-center rounded-full text-lg text-white cursor-pointer  bg-[#b68a35] transition-colors duration-100 [&:not(:disabled)]:hover:bg-[#e3ad42] border-none  shadow-lg w-[70px]"
+            >
+              <HiMiniStop size={35} />
+            </button>
+          </>
+        ) : (
+          <button
+            onClick={() => {
+              void captureAndTranscribeAudio();
+            }}
+            className="p-4 flex items-center justify-center text-lg text-white cursor-pointer  bg-[#b68a35] transition-colors duration-100 [&:not(:disabled)]:hover:bg-[#e3ad42] border-none rounded-full shadow-lg w-[200px]"
+          >
+            Click to speak
+          </button>
+        )}
+      </div>
+      {/* <Button onClick={onWelcome}>Welcome me</Button> */}
     </div>
   );
 }
