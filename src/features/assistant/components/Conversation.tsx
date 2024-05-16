@@ -23,7 +23,7 @@ export default function Conversation({
 
   const handleReset = () => {
     mutate(
-      { bot_id: "4f306b6e-7f85-49eb-9076-14591a5aa671" },
+      { conv_id: "2d6b9bfd-7d3c-469c-9ab0-1106e0cb3c3b" },
       {
         onSuccess: () => {
           void message.success("Conversation restarted");

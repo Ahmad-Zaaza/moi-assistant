@@ -30,9 +30,9 @@ export class RagService {
       },
     );
 
-  resetBot = ({ bot_id, token }: { bot_id: string; token: string }) => {
+  resetBot = ({ conv_id, token }: { conv_id: string; token: string }) => {
     const formData = new FormData();
-    formData.append("bot_id", bot_id);
+    formData.append("conv_id", conv_id);
     return fetch(
       `${this.axiosInstance.defaults.baseURL}/be_workflows/be_wf_graph/id/9824b9e1-8ee3-4638-aa30-d16acebbe9a6/call`,
       {

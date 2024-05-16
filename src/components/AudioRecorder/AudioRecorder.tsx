@@ -134,6 +134,7 @@ export default function AudioRecorder({
       audioRef.current.removeEventListener("ended", handleEnded);
       setTimeout(timeoutfn, 500);
     };
+    audioRef.current.playbackRate = 1.2;
     void audioRef.current.play().then(() => {
       setAudioState("playing");
       audioRef.current.addEventListener("ended", handleEnded);

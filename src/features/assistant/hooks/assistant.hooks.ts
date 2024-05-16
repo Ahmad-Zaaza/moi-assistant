@@ -181,7 +181,7 @@ export const useResetConversation = () => {
   const token = getAccessToken();
 
   return useMutation({
-    mutationFn: ({ bot_id }: { bot_id: string }) =>
-      api.rag.resetBot({ token, bot_id }),
+    mutationFn: ({ conv_id }: { conv_id: string }) =>
+      api.rag.resetBot({ token, conv_id }),
   });
 };
