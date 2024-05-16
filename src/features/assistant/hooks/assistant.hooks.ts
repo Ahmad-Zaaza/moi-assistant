@@ -53,7 +53,6 @@ export const useSendAudioMessage = (
     setIsLoading(true);
     try {
       const token = getAccessToken();
-      if (!token) return;
 
       const formData = new FormData();
       formData.append("file", file);

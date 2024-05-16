@@ -13,7 +13,7 @@ export class RagService {
     signal,
   }: {
     formData: FormData;
-    token: string;
+    token?: string;
     signal: AbortSignal | undefined;
   }) =>
     fetch(
