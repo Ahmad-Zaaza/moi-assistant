@@ -6,7 +6,6 @@ module.exports = {
     "plugin:@typescript-eslint/strict-type-checked",
     "plugin:@typescript-eslint/stylistic-type-checked",
     "plugin:jsx-a11y/recommended",
-    "plugin:playwright/recommended",
     "plugin:react-hooks/recommended",
     "plugin:react/jsx-runtime",
     "plugin:react/recommended",
