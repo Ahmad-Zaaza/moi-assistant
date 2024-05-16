@@ -14,10 +14,10 @@
     - [Trade-offs and Considerations](#trade-offs-and-considerations)
     - [Future Improvements](#future-improvements)
   - [2. Usage](#2-usage)
-  - [Backend Setup](#backend-setup)
-  - [Running the Application](#running-the-application)
-  - [Additional Notes](#additional-notes)
-  - [Frontend Setup](#frontend-setup)
+    - [Backend Setup](#backend-setup)
+      - [Running the Application](#running-the-application)
+      - [Additional Notes](#additional-notes)
+    - [Frontend Setup](#frontend-setup)
   - [3. Create `.env` file](#3-create-env-file)
   - [4. Yarn Commands](#4-yarn-commands)
   - [5. Dependencies](#5-dependencies)
@@ -70,7 +70,7 @@ Our voice assistant provides a seamless and intuitive solution to these problems
 To run this project locally, follow these steps:
 
 
-## Backend Setup
+### Backend Setup
 
 
 1. Clone the Repository:
@@ -89,11 +89,11 @@ To run this project locally, follow these steps:
 3. **Create and Activate a Virtual Environment**
 
     ```sh
-    python -m venv venv
+    python -m venv .venv
     ```
 
     ```
-    source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
+    source .venv/bin/activate  # On Windows, use `.venv\Scripts\activate`
     ```
 
 4. **Install Dependencies**
@@ -111,7 +111,7 @@ To run this project locally, follow these steps:
 6. **Add API Keys**
     Open `.env` file and update the keys.
 
-## Running the Application
+#### Running the Application
 
 1. **Start the Flask Application**
 
@@ -121,12 +121,12 @@ To run this project locally, follow these steps:
 
 Open a new terminal, navigate to the backend directory, and follow the steps above to set up and run the Flask application.
 
-## Additional Notes
+#### Additional Notes
 
 - Ensure you have Python and pip installed on your system.
 - The application runs on `http://127.0.0.1:5000` by default.
 
-## Frontend Setup
+### Frontend Setup
 
 
 
