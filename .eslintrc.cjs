@@ -17,7 +17,6 @@ module.exports = {
     "react-refresh",
     "redundant-undefined",
     "sonarjs",
-    "playwright",
   ],
   ignorePatterns: ["/*", "!/src", "!/tests"],
   parser: "@typescript-eslint/parser",

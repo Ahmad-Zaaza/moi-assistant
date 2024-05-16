@@ -26,9 +26,7 @@ dist-ssr
 .env
 .venv
 /test-results/
-/playwright-report/
 /blob-report/
-/playwright/.cache/
 /tests/e2e/.auth/*
 .nyc_output
 coverage
