@@ -24,7 +24,7 @@ dist-ssr
 
 
 .env
-
+.venv
 /test-results/
 /playwright-report/
 /blob-report/
