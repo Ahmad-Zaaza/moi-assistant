@@ -60,62 +60,34 @@ Our voice assistant provides a seamless and intuitive solution to these problems
 
 ## 2. Usage
 
-To use this boilerplate in a new frontend project, follow these steps. You need to have a Gitlab repo for your new project created before beginning.
+To run this project locally, follow these steps:
 
-1. The end-to-end (e2e) tests require a password for the user used in the tests to authenticate. The password is configured as a CICD variable to avoid storing the password in the repository files. Add a CICD variable named `TEST_ADMIN_ROLE_USERNAME` and `TEST_ADMIN_ROLE_PASSWORD` and set the username password used for the test user as its value.
+1. Clone the Repository:
 
-2. An Access Token is required for the semantic-release to be able to interact with the repository and add commits and tags. Generate an Access Token in GitLab with the following scopes: `api`, `read_repository`, `write_repository`. Add a CICD variable named `GITLAB_TOKEN` with the Access Token you created as its value.
+```bash 
+git clone https://github.com/Ahmad-Zaaza/moi-assistant.git
+```
 
-3. Request a GitLab admin to add the new project to the Renovate Bot.
-
-4. Setup a an application on datadog and fill in the applicationId, clientToken and service in the tracking config in tracking/index.ts
-
-5. Fork the Repository:
-
-
-6. Change the name of the project directory to the name of the new project.
+2. Navigate to Project Directory:
 
 ```bash
-mv frontend-boilerplate project_name
+  cd moi-assistant
+
 ```
 
-7. Navigate to Project Directory:
+
+3. Install dependencies:
 
 ```bash
-cd project_name
-```
+  yarn install
+``` 
 
-8. Set the package.json name to the project name and set the version to 0.0.0.
-
-9. Update the `issuePrefixes` field in the `commitlint.config.cjs` file to reflect the Jira issue prefix used in your project. Each commit requires a reference to the JIRA issue ID, for example **feat(charts): add line chart `FRON-4`**, with FRON-4 being the Jira issue ID.
-
-10. Remove the git history so that the project has a clean history.
+4. Run the dev server:
 
 ```bash
-rm -rf .git
+  yarn dev
 ```
 
-11. Initialize a new Git repository in the project folder.
-
-```
-git init
-```
-
-12. Install dependencies
-
-```bash
-yarn install
-```
-
-13. Run the dev server
-
-```bash
-yarn dev
-```
-
-14. Update [contributing](./CONTRIBUTING.md) and replace this README file with the [SAMPLE_README](./SAMPLE_README.md). Delete [SAMPLE_README](./SAMPLE_README.md) after.
-
-15. Set the remote origin for the remote git repo. Now you are ready to commit and push.
 
 ## 3. Yarn Commands
 
